@@ -275,9 +275,29 @@ def install_python_stuff():
 @task
 def install_ruby_stuff():
     """
-    Install dependencies, get gpg key for rvm, rvm/rbenv
+    Install dependencies, rbenv
     """
+
+    # install deps
     local('sudo apt-get -y install libffi-dev libgdbm-dev libncurses5-dev')
+
+    # install rbenv
+    with lcd('~/'):
+        local('git clone https://github.com/sstephenson/rbenv.git ~/.rbenv')
+        local('echo "export PATH=\'$HOME/.rbenv/bin:$PATH\'" >> ~/.bashrc')
+        local('echo "eval \'$(rbenv init -)\'" >> ~/.bashrc')
+        # for debugging
+        # should print 'rbenv is a function'
+        local('type rbenv')
+
+@task
+def install_rvm():
+    """
+    This is NOT installed when ruby stuff is installed.
+    Rbenv is installed by default with ruby stuff. If you want to use rvm
+    instaed, you should uninstall rbenv first before running this.
+    """
+    # TODO write task to uninstall rvm
     local('gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3')
     local('curl -L https://get.rvm.io | bash -s stable')
 
