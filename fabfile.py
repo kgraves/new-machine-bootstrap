@@ -275,10 +275,11 @@ def install_python_stuff():
 @task
 def install_ruby_stuff():
     """
-    Install rvm/rbenv, gem
+    Install dependencies, get gpg key for rvm, rvm/rbenv
     """
-    # TODO
-    pass
+    local('sudo apt-get -y install libffi-dev libgdbm-dev libncurses5-dev')
+    local('gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3')
+    local('curl -L https://get.rvm.io | bash -s stable')
 
 @task
 def install_xps13de_stuff():
